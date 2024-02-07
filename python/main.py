@@ -131,7 +131,7 @@ for i in range(100):
     start_t = time.time()
     result = bubblesort(temp_nums)
     exe_t = time.time() - start_t
-    total_t += exe_t * 10 ** 6
+    total_t += exe_t
 
 temp_nums = nums.copy()
 
@@ -143,7 +143,7 @@ used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
 
 tracemalloc.stop()
 
-avg_t = int(total_t / 100)
+avg_t = int(total_t  * 10 ** 6 / 100)
 
 print("bubble sort")
 print(result)
@@ -158,7 +158,7 @@ for i in range(100):
     start_t = time.time()
     result = quicksort(temp_nums, 0, len(nums) - 1)
     exe_t = time.time() - start_t
-    total_t += exe_t * 10 ** 6
+    total_t += exe_t
 
 temp_nums = nums.copy()
 
@@ -170,7 +170,7 @@ used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
 
 tracemalloc.stop()
 
-avg_t = int(total_t / 100)
+avg_t = int(total_t  * 10 ** 6 / 100)
 
 print("quick sort")
 print(result)
@@ -185,7 +185,7 @@ for i in range(100):
     start_t = time.time()
     result = mergesort(temp_nums)
     exe_t = time.time() - start_t
-    total_t += exe_t * 10 ** 6
+    total_t += exe_t
 
 tracemalloc.start()
 
@@ -195,7 +195,7 @@ used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
 
 tracemalloc.stop()
 
-avg_t = int(total_t / 100)
+avg_t = int(total_t  * 10 ** 6 / 100)
 
 print("merge sort")
 print(result)

@@ -13,9 +13,9 @@ Benchmarks the programming languages on some common sorting algorithms.
     </tr>
     <tr>
         <td>Python</td>
-        <td style="text-align: right;">3714 us</td>
-        <td style="text-align: right;">1733 us</td>
-        <td style="text-align: right;">316 us</td>
+        <td style="text-align: right;">3755 us</td>
+        <td style="text-align: right;">1734 us</td>
+        <td style="text-align: right;">309 us</td>
     </tr>
     <tr>
         <td></td>
