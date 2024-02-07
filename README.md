@@ -1,4 +1,4 @@
-# sorting-benchmark
+# sorting_benchmark
 
 Benchmarks the programming languages on some common sorting algorithms.
 
