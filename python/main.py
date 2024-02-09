@@ -99,6 +99,50 @@ def mergesort(nums: list):
 
     return merge(mergesort(left), mergesort(right))
 
+def heapify(nums: list, count: int, i: int):
+    largest = i
+    left = 2 * i + 1  # left child
+    right = 2 * i + 2  # right child
+
+    if left < count and nums[left] > nums[largest]:
+        largest = left
+
+    if right < count and nums[right] > nums[largest]:
+        largest = right
+
+    if largest != i:
+        key = nums[i]
+        nums[i] = nums[largest]
+        nums[largest] = key
+
+        heapify(nums, count, largest)
+
+def heapsort(nums: list):
+    """
+    Time complexity:
+    - Best: O(nlogn)
+    - Average: O(nlogn)
+    - Worst: O(nlogn)
+    Space complexity: O(1)
+    """
+    count = len(nums)
+
+    # Build heap
+    i: int = int(count / 2) - 1
+    while i >= 0:
+        heapify(nums, count, i)
+        i -= 1
+
+    i = count - 1
+    while i >= 0:
+        key = nums[0]
+        nums[0] = nums[i]
+        nums[i] = key
+
+        heapify(nums, i, 0)
+        i -= 1
+
+    return nums
 
 total_t = 0
 result = []
@@ -126,6 +170,8 @@ nums = [
     10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 ]
 
+""" Bubble sort benchmark """
+
 for i in range(100):
     temp_nums = nums.copy()
     start_t = time.time()
@@ -143,12 +189,14 @@ used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
 
 tracemalloc.stop()
 
-avg_t = int(total_t  * 10 ** 6 / 100)
+avg_t = int(total_t * 10 ** 6 / 100)
 
 print("bubble sort")
 print(result)
 print(str(avg_t) + " us")
 print(str(used_mem) + " KiB\n")
+
+""" Quick sort benchmark """
 
 total_t = 0
 result = []
@@ -170,12 +218,14 @@ used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
 
 tracemalloc.stop()
 
-avg_t = int(total_t  * 10 ** 6 / 100)
+avg_t = int(total_t * 10 ** 6 / 100)
 
 print("quick sort")
 print(result)
 print(str(avg_t) + " us")
 print(str(used_mem) + " KiB\n")
+
+""" Merge sort benchmark """
 
 total_t = 0
 result = []
@@ -187,6 +237,8 @@ for i in range(100):
     exe_t = time.time() - start_t
     total_t += exe_t
 
+temp_nums = nums.copy()
+
 tracemalloc.start()
 
 result = mergesort(temp_nums)
@@ -195,9 +247,38 @@ used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
 
 tracemalloc.stop()
 
-avg_t = int(total_t  * 10 ** 6 / 100)
+avg_t = int(total_t * 10 ** 6 / 100)
 
 print("merge sort")
+print(result)
+print(str(avg_t) + " us")
+print(str(used_mem) + " KiB\n")
+
+""" Heap sort benchmark """
+
+total_t = 0
+result = []
+
+for i in range(100):
+    temp_nums = nums.copy()
+    start_t = time.time()
+    result = heapsort(temp_nums)
+    exe_t = time.time() - start_t
+    total_t += exe_t
+
+temp_nums = nums.copy()
+
+tracemalloc.start()
+
+result = heapsort(temp_nums)
+
+used_mem = round(tracemalloc.get_traced_memory()[0] / 1024, 3)
+
+tracemalloc.stop()
+
+avg_t = int(total_t * 10 ** 6 / 100)
+
+print("heap sort")
 print(result)
 print(str(avg_t) + " us")
 print(str(used_mem) + " KiB\n")
