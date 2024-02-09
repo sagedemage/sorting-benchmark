@@ -149,8 +149,8 @@ function mergesort(nums) {
  */
 function heapify(nums, count, i) {
 	let largest = i;
-	let left = 2 * i + 1;
-	let right = 2 * i + 2;
+	let left = 2 * i + 1; // left child
+	let right = 2 * i + 2; // right child
 
 	if (left < count && nums[left] > nums[largest]) {
 		largest = left;

@@ -119,8 +119,8 @@ func mergesort(nums []int) []int {
 
 func heapify(nums []int, count int, i int) {
 	largest := i
-	left := 2 * i + 1
-	right := 2 * i + 2
+	left := 2 * i + 1 // left child
+	right := 2 * i + 2 // right child
 
 	if left < count && nums[left] > nums[largest] {
 		largest = left
