@@ -54,12 +54,12 @@ func partition(nums []int, low int, high int) int {
 
 func quicksort(nums []int, low int, high int) []int {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(n^2)
-    Space complexity: O(logn)
-    */
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(n^2)
+	Space complexity: O(logn)
+	*/
 	if low < high {
 		partition_index := partition(nums, low, high)
 
@@ -99,12 +99,12 @@ func merge(left []int, right []int) []int {
 
 func mergesort(nums []int) []int {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(nlogn)
-    Space complexity: O(n)
-    */
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(nlogn)
+	Space complexity: O(n)
+	*/
 	if len(nums) < 2 {
 		return nums
 	}
@@ -115,6 +115,54 @@ func mergesort(nums []int) []int {
 	right := nums[mid:]
 
 	return merge(mergesort(left), mergesort(right))
+}
+
+func heapify(nums []int, count int, i int) {
+	largest := i
+	left := 2 * i + 1
+	right := 2 * i + 2
+
+	if left < count && nums[left] > nums[largest] {
+		largest = left
+	}
+
+	if right < count && nums[right] > nums[largest] {
+		largest = right
+	}
+
+	if largest != i {
+		key := nums[i]
+		nums[i] = nums[largest]
+		nums[largest] = key
+
+		heapify(nums, count, largest)
+	}
+}
+
+func heapsort(nums []int) []int {
+	/*
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(nlogn)
+	Space complexity: O(1)
+	*/
+
+	count := len(nums)
+
+	for i := int(count / 2) - 1; i >= 0; i-- {
+		heapify(nums, count, i)
+	}
+
+	for i := count - 1; i >= 0 ; i-- {
+		key := nums[0]
+		nums[0] = nums[i]
+		nums[i] = key
+
+		heapify(nums, i, 0)
+	}
+
+	return nums
 }
 
 func main() {
@@ -141,6 +189,7 @@ func main() {
 		10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 	}
 
+	/* Bubble sort benchmark */
 	var total_t int64 = 0
 	var used_mem, used_mem1, used_mem2 float64
 	var result []int
@@ -179,6 +228,7 @@ func main() {
 	fmt.Println(fmt.Sprint(avg_exe_t) + " us")
 	fmt.Println(fmt.Sprint(used_mem) + " KiB\n")
 
+	/* Quick sort benchmark */
 	total_t = 0
 
 	for i := 0; i < 100; i++ {
@@ -212,6 +262,7 @@ func main() {
 	fmt.Println(fmt.Sprint(avg_exe_t) + " us")
 	fmt.Println(fmt.Sprint(used_mem) + " KiB\n")
 
+	/* Merge sort benchmark */
 	total_t = 0
 
 	for i := 0; i < 100; i++ {
@@ -241,6 +292,40 @@ func main() {
 	used_mem = math.Round((used_mem2-used_mem1)/1024*1000) / 1000
 
 	fmt.Println("merge sort")
+	fmt.Println(result)
+	fmt.Println(fmt.Sprint(avg_exe_t) + " us")
+	fmt.Println(fmt.Sprint(used_mem) + " KiB\n")
+
+	/* Heap sort benchmark */
+	total_t = 0
+
+	for i := 0; i < 100; i++ {
+		var temp_nums = make([]int, len(nums))
+		copy(temp_nums, nums)
+		start_t := time.Now()
+		result = heapsort(temp_nums)
+		exe_t := time.Now().Sub(start_t).Microseconds()
+		total_t += exe_t
+	}
+
+	avg_exe_t = total_t / 100
+
+	temp_nums = make([]int, len(nums))
+	copy(temp_nums, nums)
+
+	runtime.GC()
+
+	runtime.ReadMemStats(&m1)
+
+	result = heapsort(temp_nums)
+
+	runtime.ReadMemStats(&m2)
+
+	used_mem1 = float64(m1.Mallocs - m1.Frees)
+	used_mem2 = float64(m2.Mallocs - m2.Frees)
+	used_mem = math.Round((used_mem2-used_mem1)/1024*1000) / 1000
+
+	fmt.Println("heap sort")
 	fmt.Println(result)
 	fmt.Println(fmt.Sprint(avg_exe_t) + " us")
 	fmt.Println(fmt.Sprint(used_mem) + " KiB\n")
