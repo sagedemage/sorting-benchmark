@@ -65,12 +65,12 @@ function partition(nums, low, high) {
  */
 function quicksort(nums, low, high) {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(n^2)
-    Space complexity: O(logn)
-    */
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(n^2)
+	Space complexity: O(logn)
+	*/
 	if (low < high) {
 		const partition_index = partition(nums, low, high);
 
@@ -123,12 +123,12 @@ function merge(left, right) {
  */
 function mergesort(nums) {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(nlogn)
-    Space complexity: O(n)
-    */
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(nlogn)
+	Space complexity: O(n)
+	*/
 	if (nums.length < 2) {
 		return nums;
 	}
@@ -175,11 +175,11 @@ function heapify(nums, count, i) {
  */
 function heapsort(nums) {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(nlogn)
-    Space complexity: O(1)
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(nlogn)
+	Space complexity: O(1)
 	*/
 
 	let count = nums.length;
