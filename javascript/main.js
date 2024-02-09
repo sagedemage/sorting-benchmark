@@ -65,12 +65,12 @@ function partition(nums, low, high) {
  */
 function quicksort(nums, low, high) {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(n^2)
-    Space complexity: O(logn)
-    */
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(n^2)
+	Space complexity: O(logn)
+	*/
 	if (low < high) {
 		const partition_index = partition(nums, low, high);
 
@@ -123,12 +123,12 @@ function merge(left, right) {
  */
 function mergesort(nums) {
 	/*
-    Time complexity:
-    - Best: O(nlogn)
-    - Average: O(nlogn)
-    - Worst: O(nlogn)
-    Space complexity: O(n)
-    */
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(nlogn)
+	Space complexity: O(n)
+	*/
 	if (nums.length < 2) {
 		return nums;
 	}
@@ -138,6 +138,65 @@ function mergesort(nums) {
 	let right = nums.slice(mid, nums.length);
 
 	return merge(mergesort(left), mergesort(right));
+}
+
+/**
+ * Heapify
+ * @param {any[]} nums
+ * @param {number} count
+ * @param {number} i
+ * @returns {any[]}
+ */
+function heapify(nums, count, i) {
+	let largest = i;
+	let left = 2 * i + 1; // left child
+	let right = 2 * i + 2; // right child
+
+	if (left < count && nums[left] > nums[largest]) {
+		largest = left;
+	}
+	if (right < count && nums[right] > nums[largest]) {
+		largest = right;
+	}
+
+	if (largest != i) {
+		let key = nums[i];
+		nums[i] = nums[largest];
+		nums[largest] = key;
+
+		heapify(nums, count, largest);
+	}
+}
+
+/**
+ * Heapsort
+ * @param {any[]} nums
+ * @returns {any[]}
+ */
+function heapsort(nums) {
+	/*
+	Time complexity:
+	- Best: O(nlogn)
+	- Average: O(nlogn)
+	- Worst: O(nlogn)
+	Space complexity: O(1)
+	*/
+
+	let count = nums.length;
+
+	for (let i = parseInt(count / 2) - 1; i >= 0; i--) {
+		heapify(nums, count, i);
+	}
+
+	for (let i = count - 1; i >= 0; i--) {
+		let key = nums[0];
+		nums[0] = nums[i];
+		nums[i] = key;
+
+		heapify(nums, i, 0);
+	}
+
+	return nums;
 }
 
 let total_t = 0;
@@ -166,6 +225,8 @@ let nums = [
 	10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 ];
 
+/* Bubble sort bechmark */
+
 for (let i = 0; i < 100; i++) {
 	let temp_nums = JSON.parse(JSON.stringify(nums));
 
@@ -191,6 +252,8 @@ console.log("bubblesort");
 console.log(result);
 console.log(avg_t + " us");
 console.log(used_mem + " KiB\n");
+
+/* Quick sort bechmark */
 
 total_t = 0;
 
@@ -220,6 +283,8 @@ console.log(result);
 console.log(avg_t + " us");
 console.log(used_mem + " KiB\n");
 
+/* Merge sort bechmark */
+
 total_t = 0;
 
 for (let i = 0; i < 100; i++) {
@@ -244,6 +309,36 @@ used_mem = Math.round((used_mem2.heapUsed - used_mem1.heapUsed) / 1024 * 1000) /
 avg_t = parseInt((total_t / 1000) / 100);
 
 console.log("mergesort");
+console.log(result);
+console.log(avg_t + " us");
+console.log(used_mem + " KiB\n");
+
+/* Heap sort bechmark */
+
+total_t = 0;
+
+for (let i = 0; i < 100; i++) {
+	let temp_nums = JSON.parse(JSON.stringify(nums));
+
+	let start = process.hrtime()[1];
+	result = heapsort(temp_nums);
+	let exe_t = process.hrtime()[1] - start;
+	total_t += exe_t;
+}
+
+temp_nums = JSON.parse(JSON.stringify(nums));
+
+used_mem1 = process.memoryUsage();
+
+result = heapsort(temp_nums);
+
+used_mem2 = process.memoryUsage();
+
+used_mem = Math.round((used_mem2.heapUsed - used_mem1.heapUsed) / 1024 * 1000) / 1000;
+
+avg_t = parseInt((total_t / 1000) / 100);
+
+console.log("heapsort");
 console.log(result);
 console.log(avg_t + " us");
 console.log(used_mem + " KiB\n");
